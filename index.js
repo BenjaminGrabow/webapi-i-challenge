@@ -1,27 +1,31 @@
-// implement your API here
 const express = require('express');
 const server = express();
-// const Hub = require()
+const db = require('./data/db.js');
 
 server.use(express.json());
 
-server.get('', (req, res) => {
+server.get('/api/users', (req, res) => {
+  db.find()
+  .then(data => {
+    res.json(data);
+  }).catch(err => {
+    res.status(500).send(err);
+  })
+})
 
-});
-
-// server.get('', (req, res) => {
-
-// });
-
-// server.delete('', (req, res) => {
-
-// });
-
-// server.post('', (req, res) => {
+// server.get('/api/users/:id', (req, res) => {
 
 // });
 
-// server.put('', (req, res) => {
+// server.delete('/api/users/:id', (req, res) => {
+
+// });
+
+// server.post('/api/users', (req, res) => {
+
+// });
+
+// server.put('/api/users/od', (req, res) => {
 
 // });
 
