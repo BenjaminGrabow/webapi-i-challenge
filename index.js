@@ -60,22 +60,24 @@ server.delete('/api/users/:id', (req, res) => {
 
 server.post('/api/users', (req, res) => {
   const newUser = req.body
-
+  
+  if(newUser.bio === undefined || newUser.name === undefined){
+    res.status(404).json({
+      errorMessage: "Please provide name and bio for the user." 
+    })
+  } else{
   db.insert(newUser)
     .then(data => {
-      if (data) {
+      debugger;
         res.status(201).json(data);
-      } else {
-        res.status(400).json({
-          errorMessage: "Please provide name and bio for the user."
-        });
-      }
     })
     .catch(err => {
+      debugger;
       res.status(500).json({
         error: "There was an error while saving the user to the database"
       });
     });
+  }
 });
 
 server.put('/api/users/:id', (req, res) => {
