@@ -1,21 +1,39 @@
 const express = require('express');
 const server = express();
-const db = require('./data/db.js');
+const db = require('./data/db');
 
 server.use(express.json());
 
 server.get('/api/users', (req, res) => {
   db.find()
   .then(data => {
-    res.json(data);
-  }).catch(err => {
-    res.status(500).send(err);
+    if(data){
+      res.json({
+         result: data
+
+      });
+    } else {
+      res.status(500).json({
+        error: "There was an error while saving the user to the database" 
+      });
+    }
   })
-})
+});
 
-// server.get('/api/users/:id', (req, res) => {
+server.get('/api/users/:id', (req, res) => {
+  const { id } = req.params;
 
-// });
+  db.findById(id)
+ .then(data => {
+   if(data){
+     res.json(data);
+    } else{
+      res.status(500).json({
+        message: "The user with the specified ID does not exist." 
+      })
+    }
+ })
+});
 
 // server.delete('/api/users/:id', (req, res) => {
 
